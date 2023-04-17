@@ -1,4 +1,5 @@
 package com.camera.trigger.controller;
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,57 +20,70 @@ import org.springframework.web.bind.annotation.RestController;
 import com.camera.trigger.model.Usuario;
 import com.camera.trigger.repository.UsuarioRepository;
 
-@RestController			/* Essa já é nossa arquitetura REST */
+@RestController
 @RequestMapping(value = "/usuario")
 public class IndexController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	/* Serviços RESTful */
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value="id") Long id) {
+	/* Isso é um serviço Restful */
+	@GetMapping(value = "/", produces = "application/json")
+	public ResponseEntity init() {
+	
+		Iterable<Usuario> usuarios = usuarioRepository.findAll();
 
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-
-		return new ResponseEntity(usuario.get(), HttpStatus.OK);
+		// Cosome menos memória
+		return new ResponseEntity(usuarios.iterator(), HttpStatus.OK);
 	}
 
-	@GetMapping(value="/", produces = "application/json")
-	public ResponseEntity<List<Usuario>> usuario(){
-		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
-
-		return new ResponseEntity(list, HttpStatus.OK);
+	/* Isso é um serviço Restful */
+    @GetMapping(value="/{id}", produces = "application/json")
+    public ResponseEntity get(@PathVariable(value="id") Long id){
+        // System.out.println(null);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return new ResponseEntity(usuario.get(), HttpStatus.OK);
 	}
 
+	/* Isso é um serviço Restful */
+    @GetMapping(value="/{id}/relatorio/{dias}", produces = "application/json")
+    public ResponseEntity get(@PathVariable(value="id") Long id, @PathVariable(value="dias") Long dias){
+        // System.out.println(null);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return new ResponseEntity(usuario.get(), HttpStatus.OK);
+	}
 
-	@GetMapping(value = "/{id}/relatorio/{dias}", produces = "application/json")
-	public ResponseEntity<Usuario> test(@PathVariable(value="id") Long id,
-										@PathVariable(value="dias") Long dias) {
-		
-		return new ResponseEntity("Relatorio do user "+id+" dos ultimos "+dias+" dias", HttpStatus.OK);
-	}	
-
+	/* inserir */
 	@PostMapping(value="/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario){
-		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
+		for (int pos = 0; pos < usuario.getTelefones().size(); pos++){
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
+
+		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		return new ResponseEntity(usuarioSalvo, HttpStatus.OK);
+		
 	}
 
+	/* Modificar */
 	@PutMapping(value="/", produces = "application/json")
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario){
-		Usuario usuarioSalvo = usuarioRepository.save(usuario);		// O save já atualiza o objeto caso tenha um ID no JSON
 
+		for (int pos = 0; pos < usuario.getTelefones().size(); pos++){
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
+
+		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		return new ResponseEntity(usuarioSalvo, HttpStatus.OK);
 	}	
 
-	@DeleteMapping(value="/{id}", produces = "application/text")
-	public String deletar(@PathVariable("id") Long id){
-		usuarioRepository.deleteById(id); 
-
+	/* Deletar um usuario */
+	@DeleteMapping(value="/{id}", produces = "application/json")
+	public String deletar(@PathVariable Long id){
+		usuarioRepository.deleteById(id);
 		return "ok";
-	}		
+	}	
 
-
+	
 }
