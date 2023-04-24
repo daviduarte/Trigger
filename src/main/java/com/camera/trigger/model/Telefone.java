@@ -1,49 +1,49 @@
 package com.camera.trigger.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Telefone {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
-    private String telefone;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @JsonIgnore
-    @org.hibernate.annotations.ForeignKey(name="usuario_id")
-    @ManyToOne(optional = false)
-    private Usuario usuario;
-    
+	private String numero;
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+	@JsonIgnore
+	@org.hibernate.annotations.ForeignKey(name = "usuario_id")
+	@ManyToOne(optional = false)
+	private Usuario usuario;
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getNumero() {
+		return numero;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 }

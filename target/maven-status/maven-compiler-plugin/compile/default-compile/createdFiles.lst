@@ -1,0 +1,13 @@
+com/camera/trigger/ApplicationContextLoad.class
+com/camera/trigger/security/JWTLoginFilter.class
+com/camera/trigger/ServletInitializer.class
+com/camera/trigger/controller/IndexController.class
+com/camera/trigger/model/Telefone.class
+com/camera/trigger/model/Usuario.class
+com/camera/trigger/security/JWTTokenAutenticacaoService.class
+com/camera/trigger/repositoy/UsuarioRepository.class
+com/camera/trigger/security/JwtApiAutenticacaoFilter.class
+com/camera/trigger/security/WebConfigSecurity.class
+com/camera/trigger/service/ImplementacaoUserDetailsSercice.class
+com/camera/trigger/TriggerApplication.class
+com/camera/trigger/model/Role.class
