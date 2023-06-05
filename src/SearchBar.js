@@ -30,25 +30,38 @@ function SearchBar(props){
     }
 
   return (
-    <div>
-      <h2>Search Items</h2>
-      <form>
-        <label>Name: </label>
-        <input id="name-field" type="text" value={name} onChange={ (e) => setName(e.target.value) }/>
-        <br />
-        <label>Price: </label>
-        <input id="price-field" type="number" value={price} onChange={ (e) => setPrice(e.target.value) }/>
-        <br />
-        <label>Type: </label>
-        <input id="type-field" type="text" value={type} onChange={ (e) => setType(e.target.value) }/>
-        <br />
-        <label>Brand: </label>
-        <input id="brand-field" type="text" value={brand} onChange={ (e) => setBrand(e.target.value) }/>      
-        <br />                  
-        <button type="button" onClick={searchButtonPressed}>Search</button>
-      </form>
+    <div className='container'>
 
+    <div className='row'>
+      <h2 className='gray'>Search Items</h2>
+      
+      
+        <div className='col mt-3'>
+          <label>Name: </label>
+          <input id="name-field" type="text" className='form-control' value={name} onChange={ (e) => setName(e.target.value) }/>
+        </div>
 
+        <div className='col mt-3'>
+          <label>Max Price: </label>
+          <input id="price-field" type="number" className='form-control' value={price} onChange={ (e) => setPrice(e.target.value) }/>
+        </div>
+
+        <div className='col mt-3'>
+          <label>Type: </label>
+          <input id="type-field" type="text" className='form-control' value={type} onChange={ (e) => setType(e.target.value) }/>
+        </div>
+          
+        <div className='col mt-3'>
+          <label>Brand: </label>
+          <input id="brand-field" type="text" className='form-control' value={brand} onChange={ (e) => setBrand(e.target.value) }/>      
+        </div>
+          
+      
+        <div className='row mt-3'>
+          <div className='col-4' />
+            <button type="button" onClick={searchButtonPressed} className='btn btn-dark col-4' >Search</button>
+        </div>   
+      </div>   
     </div>
   )
 }

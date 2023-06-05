@@ -5,6 +5,12 @@ import { useState } from 'react';
 import SearchBar from './SearchBar';
 import AddItems from './AddItems';
 import ItemsDisplay from './ItemsDisplay';
+import styles from './App.module.css'
+import styled from 'styled-components'
+
+const Title = styled.h1`
+  color: ${(props) => props.color ? props.color : 'black'}
+`
 
 function App() {
   
@@ -12,8 +18,38 @@ function App() {
   const [filters, setFilters] = useState({})
   const updateData = (searchParam) => {
     console.log(searchParam)
-    setData(searchParam)
+    setFilters(searchParam)
   }
+
+
+
+  const filterData = (data) => {
+    const filteredData = []
+  
+    for (const item of data){
+      if (filters.name !== item.name && filters.name !== ""){
+        continue
+      }
+
+      if (item.price > filters.price && filters.price !== 0){
+        continue
+      }
+
+      if (filters.type !== item.type && filters.type !== ""){
+        continue
+      }
+
+      if (filters.brand !== item.brand && filters.brand !== ""){
+        continue
+      }
+
+      filteredData.push(item)
+      
+    }
+  
+    return filteredData
+  }
+
 
   const addItemToData = (item) => {
     //console.log("Items: ")
@@ -27,7 +63,14 @@ function App() {
 
   return (
     <div className="App">
-      <p>Hello</p>
+      <p className={styles.gray} >Hello</p>
+      <Title color='green'>Hello2</Title>
+      <p style={{
+        color: "green",
+        fontSize: 40
+      }}>Um texto qualquer</p>
+
+      <ItemsDisplay items={filterData(data['items'])} />
 
       <SearchBar callback={updateData}/>
       <p>Name: {"name" in data ? data['name'] : "Nada para exibir"}</p>
@@ -36,7 +79,7 @@ function App() {
       <p>Brand: {"brand" in data ? data['brand'] : "Nada para exibir"}</p>
 
       <AddItems addItems={addItemToData}/>
-      <ItemsDisplay items={data['items']} />
+      
     </div>
   );
 }
